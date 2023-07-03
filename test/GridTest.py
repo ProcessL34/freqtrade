@@ -9,7 +9,6 @@ class GridTest(unittest.TestCase):
         passphrase = 'Beijing123'
         self.GridAPI = Grid.GridAPI(api_key, api_secret_key, passphrase, use_server_time=False, flag='1', debug=False)
 
-    """
     GRID_COMPUTE_MARIGIN_BALANCE = '/api/v5/tradingBot/grid/compute-margin-balance'
     GRID_MARGIN_BALANCE = '/api/v5/tradingBot/grid/margin-balance'
     GRID_AI_PARAM = '/api/v5/tradingBot/grid/ai-param'
@@ -47,7 +46,6 @@ class GridTest(unittest.TestCase):
         print(self.GridAPI.grid_withdraw_income('11111'))
     def test_withdrawl_profits(self):
         print(self.GridAPI.grid_withdraw_income('485380442313723904'))
-    """
 
     def test_order_algo(self):
         print(self.GridAPI.grid_order_algo("BTC-USDT", "grid", "45000", "20000", "100", "1", quoteSz="50"))

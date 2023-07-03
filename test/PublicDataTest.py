@@ -50,8 +50,14 @@ class publicDataTest(unittest.TestCase):
         print(self.publicDataApi.get_mark_price('SWAP'))
     
     '''
-    def test_position_tier(self):
-        print(self.publicDataApi.get_position_tiers('SWAP','cross',uly='ETH-USD'))
+    # def test_position_tier(self):
+    #     print(self.publicDataApi.get_position_tiers('SWAP','cross',uly='ETH-USD'))
+
+    # def test_get_underlying(self):
+    #     print(self.publicDataApi.get_underlying("SWAP"))
+
+    def test_get_instruments(self):
+        print(self.publicDataApi.get_instruments("SWAP"))
 
 if __name__ == '__main__':
     unittest.main()

@@ -15,7 +15,8 @@ headers = {
 }
 
 data = {
-    "instType": "CSPR-USDT-SWAP"
+    "instId": "CSPR-USDT-SWAP",
+    "algoOrdType": "contract_grid"
 }
 
 response = requests.post(url, headers=headers, data=json.dumps(data))
