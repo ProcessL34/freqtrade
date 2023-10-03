@@ -3,29 +3,47 @@
 from Constants import *
 from Logger import Logger
 from MarketInfo import MarketInfo
-from okx import PublicData, Account
+from PwdLoader import PwdLoader
+from PwdObserver import PwdObserver
+from okx import PublicData
 from okx import Trade
 
 log = Logger(RUN_LOG).logger
 
 
-class Policy:
+class Policy(PwdObserver):
     def __init__(self, base_inv):
-        # 创建一个日志记录器
-
-        self.url = 'https://aws.okx.com'
-        api_key = "a6306a4a-2687-4405-ae02-5bc6e5f2a2b1"
-        api_secret_key = "366CC4C3D54F3F5954A523A38144AD6D"
-        passphrase = 'Liucheng_34'
-        self.trade = Trade.TradeAPI(api_key, api_secret_key, passphrase, False, '0')  # Limit Order
-        self.market_info = MarketInfo()
-        self.publicDataApi = PublicData.PublicAPI(api_key, api_secret_key, passphrase, flag='0',
-                                                  domain=self.url)
-        self.public_data = self.publicDataApi.get_instruments("SWAP")
+        PwdLoader.add_subscriber(self)
         self.base_inv = base_inv
+        self.account_api = None
+        self.market_info = MarketInfo()
+        account_key = PwdLoader.load_pwd_static()
+        self.trade = Trade.TradeAPI(account_key['apikey'],
+                                    account_key['secretkey'],
+                                    account_key['passphrase'],
+                                    flag='0',
+                                    domain=account_key['url'])
 
-        self.account_api = Account.AccountAPI(api_key, api_secret_key, passphrase, flag='0',
-                                              domain=self.url)
+        self.publicDataApi = PublicData.PublicAPI(account_key['apikey'],
+                                                  account_key['secretkey'],
+                                                  account_key['passphrase'],
+                                                  flag='0',
+                                                  domain=account_key['url'])
+        self.public_data = self.publicDataApi.get_instruments("SWAP")
+
+    def update(self, account_key):
+        self.trade = Trade.TradeAPI(account_key['apikey'],
+                                    account_key['secretkey'],
+                                    account_key['passphrase'],
+                                    flag='0',
+                                    domain=account_key['url'])
+
+        self.publicDataApi = PublicData.PublicAPI(account_key['apikey'],
+                                                  account_key['secretkey'],
+                                                  account_key['passphrase'],
+                                                  flag='0',
+                                                  domain=account_key['url'])
+        self.public_data = self.publicDataApi.get_instruments("SWAP")
 
     def get_ct_value_price(self, ins_id, price):
         if self.public_data['code'] == SUCCESS_CODE:

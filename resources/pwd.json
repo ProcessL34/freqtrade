@@ -1,6 +1,8 @@
 {
-  "apikey": "fe8c35ad-c0c7-42f4-ad60-d637dc546020",
-  "secretkey": "1C701ED1D4BAAFEA781C705062F2D5E7",
+  "apikey": "90447a32-6070-4c7b-bf0c-5b6839865640",
+  "secretkey": "A05A8A62D5E8A7A4B9A62DFA62EAFC39",
+  "passphrase": "Liucheng_34",
+  "url": "https://aws.okx.com",
   "IP": "",
   "备注名": "LC1002",
   "权限": "读取"

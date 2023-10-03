@@ -1,20 +1,35 @@
+import Constants
 from Constants import RUN_LOG
 from Logger import Logger
+from PwdLoader import PwdLoader
+from PwdObserver import PwdObserver
 from okx import Account
 
-log = Logger(RUN_LOG).logger
+log = Logger.get_logger(Constants.RUN_LOG)
 
 
-class AccountInfo:
+class AccountInfo(PwdObserver):
     def __init__(self):
-        # 创建一个日志记录器
-        self.url = 'https://aws.okx.com'
-        api_key = "a6306a4a-2687-4405-ae02-5bc6e5f2a2b1"
-        api_secret_key = "366CC4C3D54F3F5954A523A38144AD6D"
-        passphrase = 'Liucheng_34'
-        self.account_api = Account.AccountAPI(api_key, api_secret_key, passphrase, flag='0',
-                                              domain=self.url)
+        PwdLoader.add_subscriber(self)
+        account_key = PwdLoader.load_pwd_static()
+        self.account_api = Account.AccountAPI(account_key['apikey'],
+                                              account_key['secretkey'],
+                                              account_key['passphrase'],
+                                              flag='0',
+                                              domain=account_key['url'])
 
-    def is_invested(self, invest_id):
-        self.account_api.get_positions(instType=invest_id)
+    def update(self, account_key):
+        self.account_api = Account.AccountAPI(account_key['apikey'],
+                                              account_key['secretkey'],
+                                              account_key['passphrase'],
+                                              flag='0',
+                                              domain=account_key['url'])
 
+    def get_positions_info(self, invest_id):
+        return self.account_api.get_positions(instType=invest_id)
+
+
+if __name__ == '__main__':
+    account_info = AccountInfo()
+    # log.info(account_info.get_positions_info(''))
+    log.error('liucheng')

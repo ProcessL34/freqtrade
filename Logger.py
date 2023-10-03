@@ -7,6 +7,17 @@ LOG_LEVEL = logging.INFO
 
 
 class Logger:
+    LoggersMap = {}
+
+    @staticmethod
+    def get_logger(log_name):
+        if log_name in Logger.LoggersMap:
+            return Logger.LoggersMap[log_name].logger
+        else:
+            logger_instance = Logger(log_name)
+            Logger.LoggersMap[log_name] = logger_instance
+            return logger_instance.logger
+
     def __init__(self, log_name):
         self.logger = logging.getLogger(log_name)
         self.logger.setLevel(LOG_LEVEL)  # 设置日志级别
@@ -22,11 +33,9 @@ class Logger:
 
 
 if __name__ == '__main__':
-    log = Logger(Constants.TRADE_LOG)
-    log.logger.debug('debug')
-    log.logger.info('info')
-    log.logger.warning('警告')
-    log.logger.error('报错')
-    log.logger.critical('严重')
-    log2 = Logger(Constants.RUN_LOG)
-    log2.logger.info('liucheng')
+    logger = Logger.get_logger(Constants.RUN_LOG)
+    logger.info("liucheng")
+    logger.error("liucheng")
+    logger2 = Logger.get_logger(Constants.RUN_LOG)
+    logger2.info("liucheng")
+    logger2.error("liucheng")
