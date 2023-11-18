@@ -3,7 +3,7 @@ import time
 
 import schedule as schedule
 
-from Constants import RUN_LOG
+import Constants
 from Logger import Logger
 
 log = Logger.get_logger(Constants.RUN_LOG)

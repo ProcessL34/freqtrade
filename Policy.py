@@ -63,10 +63,16 @@ class Policy(PwdObserver):
                 # self.trade.place_order(instId=row[INST_ID], tdMode='cross', side='sell',
                 # ordType='limit', sz=math.floor(self.base_inv / min_inv), px=row['bidPx'])
 
+    def get_pending_order(self):
+        order_list = self.trade.get_order_list()
+        log.info("pending {}", order_list)
+        return order_list
+
 
 if __name__ == '__main__':
     policy = Policy(5)
     policy.core_investment()
-    balance = policy.account_api.get_account_balance()
-    positions = policy.account_api.get_positions()
-    log.info(balance)
+    # balance = policy.account_api.get_account_balance()
+    # log.info(balance)
+    # positions = policy.account_api.get_positions()
+    policy.get_pending_order()

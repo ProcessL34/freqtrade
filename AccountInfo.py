@@ -1,5 +1,4 @@
 import Constants
-from Constants import RUN_LOG
 from Logger import Logger
 from PwdLoader import PwdLoader
 from PwdObserver import PwdObserver
@@ -25,11 +24,20 @@ class AccountInfo(PwdObserver):
                                               flag='0',
                                               domain=account_key['url'])
 
+    # 获取订单信息
     def get_positions_info(self, invest_id):
         return self.account_api.get_positions(instType=invest_id)
+
+    def is_invested(self, invest_id):
+        return True
+
+    def has_handled(self, invest_id):
+        return True
+
+    def can_invest(self, invest_id):
+        return True
 
 
 if __name__ == '__main__':
     account_info = AccountInfo()
-    # log.info(account_info.get_positions_info(''))
-    log.error('liucheng')
+    log.info(account_info.get_positions_info(''))
